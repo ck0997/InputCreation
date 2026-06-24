@@ -22,9 +22,13 @@ case.
 - `data/raw/co2/basin_centroids.csv` - storage basin centroid inputs used in route development.
 - `data/processed/co2/` - final generated MacroEnergy-ready input CSVs.
 - `docs/co2_cost_methodology.md` - concise formulas and column mapping.
-- `chinny_co2_pipeline_distance/` - exploratory notebook-era route development files kept for traceability.
+- `notebooks/` - original exploratory notebooks kept for provenance and review.
 
 ## Regenerate the CSVs
+
+You only need to run this when the route table, cost assumptions, or asset
+templates change. If you just need the current inputs, use the CSVs already in
+`data/processed/co2/`.
 
 Install the one Python dependency:
 
@@ -41,6 +45,9 @@ python scripts/build_co2_cost_inputs.py
 By default, the script reads `data/raw/co2/routes_export.csv`, updates the
 template files in `data/processed/co2/`, and writes regenerated files back into
 `data/processed/co2/`.
+
+The notebooks are not required for normal regeneration. They document the
+exploratory work that produced the route table and injection-cost assumptions.
 
 To update a separate MacroEnergy asset folder directly:
 
