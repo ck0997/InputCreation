@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+# Large geospatial rasters used during least-cost path exploration are not
+# required for the reusable CSV generation workflow.
+chinny_co2_pipeline_distance/costsurface/
