@@ -1,8 +1,6 @@
 # InputCreation
 
-This folder contains reusable CO2 transport and storage input-creation files
-for the MacroEnergy China case. The main outputs are ready-to-use CSVs for a
-MacroEnergy `assets/assets_1/` folder.
+Includes packages for updating investment and operational costs for CO2 pipelines and injection for updating co2_pipelines.csv and co2_injection.csv. The main outputs are ready-to-use CSVs for a MacroEnergy `assets/assets_1/` folder.
 
 ## Main Files
 
