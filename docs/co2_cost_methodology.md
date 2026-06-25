@@ -20,7 +20,7 @@ The script calculates:
 These values are written into:
 
 - `edges--transmission_edge--investment_cost`
-- `edges--transmission_edge--variable_om_cost`
+- `edges--transmission_edge--fixed_om_cost`
 
 ## Injection Costs
 
@@ -38,7 +38,7 @@ For each basin, the script calculates:
 These values are written into:
 
 - `edges--co2_captured_edge--investment_cost`
-- `edges--co2_captured_edge--variable_om_cost`
+- `edges--co2_captured_edge--fixed_om_cost`
 
 The detailed basin-level calculation is also exported to
 `data/processed/co2/injection_basin_costs.csv`.

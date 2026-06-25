@@ -133,4 +133,3 @@ OneWayTransmissionLink,Region11Zhejiang_to_Region12Anhui_CO2_Pipeline,Region11Zh
 OneWayTransmissionLink,Region11Zhejiang_to_EastChinaSea_CO2_Pipeline,Region11Zhejiang,CO2Captured,TRUE,TRUE,FALSE,FALSE,TRUE,co2_captured_Region11Zhejiang,co2_transported_Region11Zhejiang_to_EastChinaSea,1,0,0.0007248838356164383,2.1746515068493148e-05,0,0.08,25,15,0.0
 OneWayTransmissionLink,Region11Zhejiang_to_Region13Fujian_CO2_Pipeline,Region11Zhejiang,CO2Captured,TRUE,TRUE,FALSE,FALSE,TRUE,co2_captured_Region11Zhejiang,co2_transported_Region11Zhejiang_to_Region13Fujian,1,0,0.0011973629988698109,1.4611325342465751e-05,0,0.08,25,15,0.0
 OneWayTransmissionLink,Region11Zhejiang_to_Region14Jiangxi_CO2_Pipeline,Region11Zhejiang,CO2Captured,TRUE,TRUE,FALSE,FALSE,TRUE,co2_captured_Region11Zhejiang,co2_transported_Region11Zhejiang_to_Region14Jiangxi,1,0,0.0010283979049927436,1.543152410958904e-05,0,0.08,25,15,0.0
-,,,,,,,,,,,,,,,,,,,

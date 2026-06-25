@@ -72,9 +72,9 @@ This overwrites `co2_pipeline.csv` and `co2_injection.csv` in the output folder.
 `scripts/build_co2_cost_inputs.py` updates four MacroEnergy columns:
 
 - `edges--transmission_edge--investment_cost`
-- `edges--transmission_edge--variable_om_cost`
+- `edges--transmission_edge--fixed_om_cost`
 - `edges--co2_captured_edge--investment_cost`
-- `edges--co2_captured_edge--variable_om_cost`
+- `edges--co2_captured_edge--fixed_om_cost`
 
 Pipeline costs are calculated from onshore distance, offshore distance, and the
 mean surface-cost factor for each route. Injection costs are calculated by basin

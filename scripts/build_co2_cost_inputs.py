@@ -3,8 +3,8 @@
 
 This script updates two MacroEnergy asset files:
 
-* co2_pipeline.csv: pipeline investment and transport costs
-* co2_injection.csv: injection investment and operational costs
+* co2_pipeline.csv: pipeline investment and fixed O&M transport costs
+* co2_injection.csv: injection investment and fixed O&M operational costs
 
 The default paths are repo-relative so the command can be run from any
 directory inside this repository.
@@ -23,7 +23,7 @@ HOURS_PER_YEAR = 8760
 TONS_PER_MEGATON = 1_000_000
 
 # Pipeline costs are expressed in the units expected by the MacroEnergy asset
-# schema. Operational cost is the model variable O&M transport cost.
+# schema. Operational cost is the model fixed O&M transport cost.
 PIPELINE_ONSHORE_INVESTMENT_COST = (3.7 * 1.14) / (HOURS_PER_YEAR * 500)
 PIPELINE_OFFSHORE_INVESTMENT_COST = (6.0 * 1.14) / (HOURS_PER_YEAR * 500)
 PIPELINE_OPERATIONAL_COST_FRACTION = 0.03
@@ -67,13 +67,15 @@ BASIN_INPUTS = [
 ]
 
 PIPELINE_INVESTMENT_COL = "edges--transmission_edge--investment_cost"
+PIPELINE_FIXED_OM_COL = "edges--transmission_edge--fixed_om_cost"
 PIPELINE_VARIABLE_OM_COL = "edges--transmission_edge--variable_om_cost"
 PIPELINE_START_VERTEX_COL = "edges--transmission_edge--start_vertex"
 PIPELINE_END_VERTEX_COL = "edges--transmission_edge--end_vertex"
 
 INJECTION_STORAGE_VERTEX_COL = "edges--co2_storage_edge--end_vertex"
 INJECTION_INVESTMENT_TARGET_COL = "edges--co2_captured_edge--investment_cost"
-INJECTION_OPERATIONAL_TARGET_COL = "edges--co2_captured_edge--variable_om_cost"
+INJECTION_FIXED_OM_TARGET_COL = "edges--co2_captured_edge--fixed_om_cost"
+INJECTION_VARIABLE_OM_TARGET_COL = "edges--co2_captured_edge--variable_om_cost"
 
 INJECTION_INVESTMENT_SOURCE_COL = "Unit Cost of Injection ($/(t/hr)) - investment cost"
 INJECTION_OPERATIONAL_SOURCE_COL = "Operational cost"
@@ -182,7 +184,7 @@ def build_route_cost_lookup(routes: pd.DataFrame) -> pd.DataFrame:
 
 
 def update_pipeline_csv(template_path: Path, routes_path: Path, output_path: Path) -> int:
-    pipeline = pd.read_csv(template_path, dtype=str)
+    pipeline = pd.read_csv(template_path, dtype=str).dropna(how="all")
     routes = pd.read_csv(routes_path)
     route_costs = build_route_cost_lookup(routes)
 
@@ -193,6 +195,7 @@ def update_pipeline_csv(template_path: Path, routes_path: Path, output_path: Pat
             PIPELINE_START_VERTEX_COL,
             PIPELINE_END_VERTEX_COL,
             PIPELINE_INVESTMENT_COL,
+            PIPELINE_FIXED_OM_COL,
             PIPELINE_VARIABLE_OM_COL,
         },
         str(template_path),
@@ -217,7 +220,8 @@ def update_pipeline_csv(template_path: Path, routes_path: Path, output_path: Pat
         )
 
     matched[PIPELINE_INVESTMENT_COL] = matched["investment_cost"]
-    matched[PIPELINE_VARIABLE_OM_COL] = matched["operational_cost"]
+    matched[PIPELINE_FIXED_OM_COL] = matched["operational_cost"]
+    matched[PIPELINE_VARIABLE_OM_COL] = 0
     output_path.parent.mkdir(parents=True, exist_ok=True)
     matched[pipeline.columns].to_csv(output_path, index=False)
     return len(matched)
@@ -284,7 +288,7 @@ def update_injection_csv(
     output_path: Path,
     injection_costs_path: Path | None = None,
 ) -> int:
-    injection = pd.read_csv(template_path, dtype=str)
+    injection = pd.read_csv(template_path, dtype=str).dropna(how="all")
     injection_costs = calculate_injection_costs()
     lookup = build_injection_cost_lookup(injection_costs)
 
@@ -294,7 +298,8 @@ def update_injection_csv(
             "id",
             INJECTION_STORAGE_VERTEX_COL,
             INJECTION_INVESTMENT_TARGET_COL,
-            INJECTION_OPERATIONAL_TARGET_COL,
+            INJECTION_FIXED_OM_TARGET_COL,
+            INJECTION_VARIABLE_OM_TARGET_COL,
         },
         str(template_path),
     )
@@ -317,7 +322,8 @@ def update_injection_csv(
         )
 
     matched[INJECTION_INVESTMENT_TARGET_COL] = matched[INJECTION_INVESTMENT_SOURCE_COL]
-    matched[INJECTION_OPERATIONAL_TARGET_COL] = matched[INJECTION_OPERATIONAL_SOURCE_COL]
+    matched[INJECTION_FIXED_OM_TARGET_COL] = matched[INJECTION_OPERATIONAL_SOURCE_COL]
+    matched[INJECTION_VARIABLE_OM_TARGET_COL] = 0
     output_path.parent.mkdir(parents=True, exist_ok=True)
     matched[injection.columns].to_csv(output_path, index=False)
 
