@@ -348,7 +348,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--routes",
         type=Path,
-        default=root / "data" / "raw" / "co2" / "routes_export.csv",
+        default=root / "notebooks" / "co2_pipeline_costs" / "co2" / "routes_export.csv",
         help="Route table with start/end, onshore/offshore km, and mean surface cost.",
     )
     parser.add_argument(

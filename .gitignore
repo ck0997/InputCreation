@@ -7,3 +7,5 @@ __pycache__/
 # Large geospatial rasters used during least-cost path exploration are not
 # required for the reusable CSV generation workflow.
 chinny_co2_pipeline_distance/costsurface/
+notebooks/co2_pipeline_costs/co2/costsurface/
+plots/plots/

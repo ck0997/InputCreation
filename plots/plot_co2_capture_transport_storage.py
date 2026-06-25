@@ -126,14 +126,22 @@ def resolve_route_path(route_path: str | Path | None) -> Path | None:
     if route_path.exists():
         return route_path
     if route_path.name == "delaunay_lcp_route_paths_output147.csv":
-        fallback = (
-            Path(__file__).resolve().parent
-            / "improved_co2_pipelines"
-            / "chinny_co2_pipeline_distance"
-            / "delaunay_lcp_route_paths_output147.csv"
-        )
-        if fallback.exists():
-            return fallback
+        script_dir = Path(__file__).resolve().parent
+        repo_root = script_dir.parent
+        fallbacks = [
+            repo_root
+            / "notebooks"
+            / "co2_pipeline_costs"
+            / "delaunay_lcp_route_paths_output147.csv",
+            repo_root
+            / "notebooks"
+            / "co2_pipeline_costs"
+            / "co2"
+            / "delaunay_lcp_route_paths_output147.csv",
+        ]
+        for fallback in fallbacks:
+            if fallback.exists():
+                return fallback
     return route_path
 
 
@@ -150,14 +158,21 @@ def load_inputs(results_dir: Path):
 def load_china_gdf(gpd, map_path: Path):
     map_path = Path(map_path)
     if not map_path.exists() and map_path.name == "gadm36_CHN_1.json":
-        fallback = (
-            Path(__file__).resolve().parent
-            / "improved_co2_pipelines"
-            / "chinny_co2_pipeline_distance"
-            / "gadm36_CHN_1.json"
-        )
-        if fallback.exists():
-            map_path = fallback
+        script_dir = Path(__file__).resolve().parent
+        repo_root = script_dir.parent
+        fallbacks = [
+            repo_root
+            / "notebooks"
+            / "co2_pipeline_costs"
+            / "co2"
+            / "gadm36_CHN_1.json",
+            script_dir / "co2_pipeline_costs" / "gadm36_CHN_1.json",
+            script_dir / "co2_pipeline_costs" / "co2" / "gadm36_CHN_1.json",
+        ]
+        for fallback in fallbacks:
+            if fallback.exists():
+                map_path = fallback
+                break
     gdf = gpd.read_file(map_path)
     gdf["NAME_1"] = gdf["NAME_1"].replace(PROVINCE_RENAME)
     return gdf
@@ -953,8 +968,10 @@ def parse_args():
         "--map-path",
         default=str(
             script_dir
-            / "improved_co2_pipelines"
-            / "chinny_co2_pipeline_distance"
+            / ".."
+            / "notebooks"
+            / "co2_pipeline_costs"
+            / "co2"
             / "gadm36_CHN_1.json"
         ),
     )
@@ -962,8 +979,10 @@ def parse_args():
         "--route-path",
         default=str(
             script_dir
-            / "improved_co2_pipelines"
-            / "chinny_co2_pipeline_distance"
+            / ".."
+            / "notebooks"
+            / "co2_pipeline_costs"
+            / "co2"
             / "delaunay_lcp_route_paths_output147.csv"
         ),
         help="Methodology notebook route table. If path_lon/path_lat columns exist, they are used as route geometry.",
