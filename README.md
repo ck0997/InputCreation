@@ -1,6 +1,6 @@
 # InputCreation
 
-Includes packages for updating investment and operational costs for CO2 pipelines and injection for updating co2_pipelines.csv and co2_injection.csv. The main outputs are ready-to-use CSVs for a MacroEnergy `assets/assets_1/` folder.
+Includes notebooks and scripts for updating investment and operational costs for CO2 pipelines and injection for updating co2_pipelines.csv and co2_injection.csv. The main outputs are ready-to-use CSVs for a MacroEnergy `assets/assets_1/` folder.
 
 ## Main Files
 
